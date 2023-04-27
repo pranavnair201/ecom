@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  backend:
+    build: 'backend/'
+    depends_on:
+      - db
+    environment:
+      SQLALCHEMY_DATABASE_URI: 'postgresql://ecom_admin:password@db/ecom'
+      VERIFICATION_LINK: 'http://127.0.0.1:5000/user/verify'
+      EMAIL_ID: 'pranav.nair@sculptsoft.com'
+      PASSWORD: 'adfly143'
+      TOKEN_SECRET: 'qwertyuioplkmjnha5526735gbsgsg'
+    ports:
+      - '5000:5000'
+    restart: always
+    volumes:
+      - ./:/usr/src/app
+      - ./backend/migrations:/var/lib/postgresql/data
+  db:
+    image: postgres:latest
+    networks:
+      - default
+    ports:
+      - 5405:5432
+    restart: always
+    environment:
+      POSTGRES_USER: ecom_admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ecom
