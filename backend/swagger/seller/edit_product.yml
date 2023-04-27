@@ -1,0 +1,30 @@
+Edit product
+---
+parameters:
+  - in: header
+    name: app
+    required: true
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: int
+      minimum: 0
+    description: product_id
+  - name: data
+    in: body
+    required: true
+    example: {
+        "name":"product 1",
+        "price":10,
+        "quantity":100
+    }
+    description: Post data
+
+responses:
+  200:
+    description: Success
+  400:
+    description: Invalid request
+  404:
+    description: Not found

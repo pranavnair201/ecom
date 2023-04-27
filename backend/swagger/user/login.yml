@@ -1,0 +1,26 @@
+Login seller/customer
+---
+description: Log in API for seller/customer
+
+parameters:
+  - name: app
+    in: header
+    schema:
+      type: string
+    required: true
+  - name: data
+    in: body
+    required: true
+    example: {
+        "email":"prnavnair2002@gmail.com",
+        "password":"password"
+    }
+    description: Post data
+
+responses:
+  200:
+    description: Success
+  400:
+    description: Invalid request
+  404:
+    description: Not found

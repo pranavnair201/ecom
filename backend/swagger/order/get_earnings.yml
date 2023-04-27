@@ -1,0 +1,25 @@
+Get vendor's earning
+---
+parameters:
+  - in: header
+    name: app
+    schema:
+      type: string
+    required: true
+  - name: start_date
+    in: query
+    required: true
+    schema:
+      type: string
+  - name: end_date
+    in: query
+    required: true
+    schema:
+      type: string
+responses:
+  200:
+    description: Success
+  400:
+    description: Invalid request
+  404:
+    description: Not found

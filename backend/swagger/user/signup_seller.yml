@@ -1,0 +1,26 @@
+Signup seller
+---
+description: Sign up API for seller
+parameters:
+  - in: header
+    name: app
+    schema:
+      type: string
+    required: true
+  - name: data
+    in: body
+    required: true
+    example: {
+        "email":"pranav.nair@sculptsoft.com",
+        "phone_number":"6359273654",
+        "password":"password",
+        "shop_name":"KFC",
+        "address":"test address"
+    }
+    description: Post data
+
+responses:
+  200:
+    description: Success
+  400:
+    description: Invalid request

@@ -1,0 +1,15 @@
+Get all products
+---
+parameters:
+  - in: header
+    name: app
+    schema:
+      type: string
+    required: true
+responses:
+  200:
+    description: Success
+  400:
+    description: Invalid request
+  404:
+    description: Not found
