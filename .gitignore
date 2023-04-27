@@ -1,10 +1,10 @@
 .DS_Store
-.env
+backend/.env
 .flaskenv
 *.pyc
 *.pyo
 env/
-venv/
+backend/venv/
 .venv/
 env*
 dist/
