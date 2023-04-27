@@ -6,7 +6,7 @@ services:
     depends_on:
       - db
     environment:
-      SQLALCHEMY_DATABASE_URI: 'postgresql://ecom_admin:password@db/ecom'
+      SQLALCHEMY_DATABASE_URI: 'postgresql://ecom_admin:password@db/ecom_db'
       VERIFICATION_LINK: 'http://127.0.0.1:5000/user/verify'
       EMAIL_ID: 'pranav.nair@sculptsoft.com'
       PASSWORD: 'adfly143'
