@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   backend:
@@ -6,11 +6,11 @@ services:
     depends_on:
       - db
     environment:
-      SQLALCHEMY_DATABASE_URI: 'postgresql://ecom_admin:password@db:5432/ecom'
-      VERIFICATION_LINK: 'http://3.109.161.249:5000/user/verify'
-      EMAIL_ID: 'pranav.nair@sculptsoft.com'
-      PASSWORD: 'adfly143'
-      TOKEN_SECRET: 'qwertyuioplkmjnha5526735gbsgsg'
+      SQLALCHEMY_DATABASE_URI: ${SQLALCHEMY_DATABASE_URI}
+      VERIFICATION_LINK: ${VERIFICATION_LINK}
+      EMAIL_ID: ${EMAIL_ID}
+      PASSWORD: ${PASSWORD}
+      TOKEN_SECRET: ${TOKEN_SECRET}
     ports:
       - '5000:5000'
     restart: always
