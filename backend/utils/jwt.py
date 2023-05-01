@@ -3,8 +3,8 @@ import jwt
 import datetime
 from flask import make_response, request
 
-from models.user.customer import Customer
-from models.user.seller import Seller
+from models.user.customer import CustomerProfile
+from models.user.seller import SellerProfile
 
 def generate_token(email):
     payload={
@@ -55,9 +55,9 @@ def validate_token(func):
         request.app=app
         
         if request.app=='seller':
-            request.user=Seller.query.filter_by(email=data['email']).one_or_none()
+            request.user=SellerProfile.query.filter_by(email=data['email']).one_or_none()
         else:
-            request.user=Customer.query.filter_by(email=data['email']).one_or_none()
+            request.user=CustomerProfile.query.filter_by(email=data['email']).one_or_none()
         
         if request.user==None:
             return make_response({"status":False,"message": "Unauthorized user"}, 403)

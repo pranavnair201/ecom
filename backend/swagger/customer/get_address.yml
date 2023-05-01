@@ -3,8 +3,7 @@ Get my address
 parameters:
   - in: header
     name: app
-    schema:
-      type: string
+    type: string
     required: true
 responses:
   200:

@@ -16,7 +16,7 @@ class OrderCustomerView(Resource):
     @error_handler
     def post(self):
         data=request.get_json()
-        data['customer_id'] = request.user.id
+        data['customer_id'] = request.user.uid
         return self.order_service.create_order(data)
     
     @swag_from(os.path.join(route,'order/get_orders.yml'))

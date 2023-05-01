@@ -22,7 +22,7 @@ class CustomerAddressView(Resource):
     @error_handler
     def post(self):
         data=request.get_json()
-        data['customer_id'] = request.user.id
+        data['customer_id'] = request.user.uid
         error=CustomerAddressCreateSchema().validate(data,session=self.db_session)
         if error:
             return make_response({"status":False,"detail":error},400)
@@ -51,7 +51,7 @@ class CustomerAddressDetailView(Resource):
         customer_address=CustomerAddress.query.get_or_404(id)
         if customer_address.customer_id==None:
             return make_response({"status":False,"detail":"Can't edit unknown's customer_address"},200)
-        if request.user.id!=customer_address.customer_id:
+        if request.user.uid!=customer_address.customer_id:
             return make_response({"status":False,"detail":"Can't edit other customer's customer_address"},200)
         error=CustomerAddressCreateSchema().validate(data,session=self.db_session)
         if error:
@@ -63,7 +63,7 @@ class CustomerAddressDetailView(Resource):
     @error_handler
     def delete(self,id):
         customer_address=CustomerAddress.query.get_or_404(id)
-        if request.user.id!=customer_address.customer_id:
+        if request.user.uid!=customer_address.customer_id:
             return make_response({"status":False,"detail":"Can't delete other customer's customer_address"},400)
         return self.customer_address_service.delete_customer_address(customer_address)
 

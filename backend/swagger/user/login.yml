@@ -3,10 +3,9 @@ Login seller/customer
 description: Log in API for seller/customer
 
 parameters:
-  - name: app
-    in: header
-    schema:
-      type: string
+  - in: header
+    name: app
+    type: string
     required: true
   - name: data
     in: body

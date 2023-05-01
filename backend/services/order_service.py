@@ -22,12 +22,12 @@ class OrderService():
         return make_response({"status":True,"detail":earnings_data},200)
     
     def get_seller_my_orders(self):
-        orders=Order.query.filter_by(seller_id=request.user.id)
+        orders=Order.query.filter_by(seller_id=request.user.uid)
         orders_data=OrderReadSchema(exclude=['seller']).dump(orders,many=True)
         return make_response({"status":True,"detail":orders_data},200)
     
     def get_customer_my_orders(self):
-        orders=Order.query.filter_by(customer_id=request.user.id)
+        orders=Order.query.filter_by(customer_id=request.user.uid)
         orders_data=OrderReadSchema(exclude=['customer']).dump(orders,many=True)
         return make_response({"status":True,"detail":orders_data},200)
 

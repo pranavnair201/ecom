@@ -31,7 +31,7 @@ class ProductSellerView(Resource):
     @error_handler
     def post(self):
         data=request.get_json()
-        data['seller_id'] = request.user.id
+        data['seller_id'] = request.user.uid
         error=ProductCreateSchema().validate(data,session=self.db_session)
         if error:
             return make_response({"status":False,"detail":error},400)
@@ -61,7 +61,7 @@ class ProductDetailView(Resource):
         product=Product.query.get_or_404(id)
         if product.seller_id==None:
             return make_response({"status":False,"detail":"Can't edit unknown's product"},200)
-        if request.user.id!=product.seller_id:
+        if request.user.uid!=product.seller_id:
             return make_response({"status":False,"detail":"Can't edit other seller's product"},200)
         error=ProductCreateSchema().validate(data,session=self.db_session)
         if error:
@@ -74,6 +74,6 @@ class ProductDetailView(Resource):
     @error_handler
     def delete(self,id):
         product=Product.query.get_or_404(id)
-        if request.user.id!=product.seller_id:
+        if request.user.uid!=product.seller_id:
             return make_response({"status":False,"detail":"Can't delete other seller's product"},400)
         return self.product_service.delete_product(product)

@@ -3,9 +3,9 @@ Add new product
 parameters:
   - in: header
     name: app
-    schema:
-      type: string
+    type: string
     required: true
+    example: customer
   - name: data
     in: body
     required: true

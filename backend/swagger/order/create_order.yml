@@ -3,8 +3,7 @@ Create new order
 parameters:
   - in: header
     name: app
-    schema:
-      type: string
+    type: string
     required: true
   - name: data
     in: body

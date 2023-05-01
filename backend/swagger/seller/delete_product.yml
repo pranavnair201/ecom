@@ -3,8 +3,7 @@ Delete product
 parameters:
   - in: header
     name: app
-    schema:
-      type: string
+    type: string
     required: true
   - name: id
     in: path

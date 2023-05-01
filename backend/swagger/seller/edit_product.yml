@@ -3,6 +3,7 @@ Edit product
 parameters:
   - in: header
     name: app
+    type: string
     required: true
   - name: id
     in: path

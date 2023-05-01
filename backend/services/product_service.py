@@ -19,7 +19,7 @@ class ProductService():
         return make_response({"status":True,"detail":products_data},200)
 
     def get_my_products(self):
-        products=Product.query.filter_by(seller_id=request.user.id)
+        products=Product.query.filter_by(seller_id=request.user.uid)
         products_data=ProductReadSchema().dump(products,many=True)
         return make_response({"status":True,"detail":products_data},200)
 

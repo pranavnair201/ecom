@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask,render_template
 from flask_restful import Api
 from flask_cors import CORS 
 from flask_migrate import Migrate
@@ -18,6 +18,8 @@ app=Flask(__name__)
 
 api=Api(app)
 CORS(app)
+
+app.config['AUTHY_API_KEY']=os.environ.get('AUTHY_API_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('SQLALCHEMY_DATABASE_URI')#"postgresql://ecom_admin:password@localhost:5432/ecom"
 
@@ -58,6 +60,10 @@ api.add_resource(DistrictView, '/district')
 api.add_resource(OrderCustomerView,'/order')
 api.add_resource(OrderSellerView,'/seller-order')
 api.add_resource(SellerEarningView,'/seller-earning')
+
+# @app.route("/token")
+# def index():
+#     return render_template('token_generator.html')
 
 if __name__=='__main__':
     app.debug=True

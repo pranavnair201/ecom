@@ -11,7 +11,7 @@ class CustomerAddress(db.Model):
     area=db.Column(db.String(30),nullable=False)
     district_id=db.Column(db.Integer,db.ForeignKey('district.id'))
     state_id=db.Column(db.Integer,db.ForeignKey('state.id'))
-    customer_id=db.Column(db.Integer,db.ForeignKey('customer.id'))
+    customer_id=db.Column(db.String(50),db.ForeignKey('customer.uid'))
     order = db.relationship(Order,backref='address')
     
     def __repr__(self):

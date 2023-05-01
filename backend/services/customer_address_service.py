@@ -15,7 +15,7 @@ class CustomerAddressService():
         return make_response({"status":True,"detail":"Customer address created successfully..!!"})
     
     def get_my_customer_addresss(self):
-        customer_addresss=CustomerAddress.query.filter_by(customer_id=request.user.id)
+        customer_addresss=CustomerAddress.query.filter_by(customer_id=request.user.uid)
         customer_addresss_data=CustomerAddressReadSchema().dump(customer_addresss,many=True)
         return make_response({"status":True,"detail":customer_addresss_data},200)
 

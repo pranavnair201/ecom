@@ -4,8 +4,7 @@ description: Sign up API for customer
 parameters:
   - in: header
     name: app
-    schema:
-      type: string
+    type: string
     required: true
   - name: data
     in: body
