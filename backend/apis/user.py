@@ -4,8 +4,8 @@ from flask import request,make_response
 from flask_restful import Resource
 from flasgger import swag_from
 
-from firebase_token_generator import create_token
-from utils.firebase.firebase import FirebaseHandler
+# from firebase_token_generator import create_token
+# from utils.firebase.firebase import FirebaseHandler
 from services.user_service import UserService
 from schemas.user.customer import CustomerCreateSchema
 from schemas.user.seller import SellerCreateSchema
@@ -19,7 +19,7 @@ from utils.twilio import phone_auth
 class UserCreateView(Resource):
     user_service=UserService()
     db_session=db.session
-    auth_handler=FirebaseHandler()
+    # auth_handler=FirebaseHandler()
     
     @swag_from(os.path.join(route,'user/signup_customer.yml'))
     @error_handler
