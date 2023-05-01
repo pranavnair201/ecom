@@ -5,7 +5,7 @@
 *.pyo
 env/
 backend/venv/
-# backend/migrations/
+backend/migrations/
 .venv/
 env*
 dist/

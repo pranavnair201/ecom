@@ -27,4 +27,4 @@ services:
     environment:
       POSTGRES_USER: ecom_admin
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: ecom_db
+      POSTGRES_DB: ecom
