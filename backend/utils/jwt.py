@@ -3,17 +3,20 @@ import jwt
 import datetime
 from flask import make_response, request
 
+from schemas.user.user import LoginEnum
 from models.user.customer import CustomerProfile
 from models.user.seller import SellerProfile
 
-def generate_token(email):
+def generate_token(type,identity):
     payload={
-        "email":email,
+        "type":type,
+        "identity":identity,
         "exp":datetime.datetime.utcnow() + datetime.timedelta(minutes=45)
     }
     secret = os.environ.get('TOKEN_SECRET')
     token=jwt.encode(payload,secret)
     return token
+
 
 def verify_user_token(token):
     secret = os.environ.get('TOKEN_SECRET')
@@ -25,7 +28,9 @@ def verify_user_token(token):
         return make_response({"status":False,"detail": "Token Invalid"}, 400)
     except Exception as e:
         return make_response({"status":False,"message": "Invalid token provided"}, 403)
-    return data['email']
+    if data['type']!=LoginEnum.EMAIL.value:
+        return make_response({"status":False,"message": "Its only for email verification"}, 400)
+    return data['identity']
 
 def validate_token(func):
     secret = os.environ.get('TOKEN_SECRET')
@@ -53,14 +58,17 @@ def validate_token(func):
         if app not in ['seller','customer']:
             return make_response({"message": "App is invalid"}, 403)
         request.app=app
-        
-        if request.app=='seller':
-            request.user=SellerProfile.query.filter_by(email=data['email']).one_or_none()
+        if data['type']==LoginEnum.PHONE.value:
+            if request.app=='seller':
+                request.user=SellerProfile.query.filter_by(phone_number=data['identity']).one_or_none()
+            else:
+                request.user=CustomerProfile.query.filter_by(phone_number=data['identity']).one_or_none()
         else:
-            request.user=CustomerProfile.query.filter_by(email=data['email']).one_or_none()
-        
+            if request.app=='seller':
+                request.user=SellerProfile.query.filter_by(email=data['identity']).one_or_none()
+            else:
+                request.user=CustomerProfile.query.filter_by(email=data['identity']).one_or_none()
         if request.user==None:
             return make_response({"status":False,"message": "Unauthorized user"}, 403)
-        
         return func(*args, **kwargs)
     return wrapper

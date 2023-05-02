@@ -11,8 +11,8 @@ parameters:
     in: body
     required: true
     example: {
-        "email":"prnavnair2002@gmail.com",
-        "password":"password"
+        "phone_number":"9510625910",
+        "type":2
     }
     description: Post data
 

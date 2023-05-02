@@ -19,7 +19,7 @@ class UserService():
                 sender =os.environ.get('EMAIL_ID'),
                 recipients = [user.email]
             )
-            token=str(generate_token(user.email))
+            token=str(generate_token(LoginEnum.EMAIL.value,user.email))
             link=os.environ.get('VERIFICATION_LINK')+f"?token={token}&app={request.app}"
             msg.body = f'verification link - {link}'
             mail.send(msg)
@@ -59,7 +59,7 @@ class UserService():
         else:
             user_exists=SellerProfile.query.filter_by(email=data['email'])
         user=user_exists.first()
-        token=generate_token(user.email)
+        token=generate_token(LoginEnum.EMAIL.value, user.email)
         return make_response({"token":token,"id":user.uid},200)
     
     def verify_otp(self,data):
@@ -76,6 +76,8 @@ class UserService():
             else:
                 user_exists=SellerProfile.query.filter_by(phone_number=data['phone_number'])
             user=user_exists.first()
-            token=generate_token(user.email)
-            return make_response({"status":True,"token":token,"detail":"Verified"},200)
+            if user!=None:
+                token=generate_token(LoginEnum.PHONE.value,user.phone_number)
+                return make_response({"status":True,"token":token,"detail":"Verified"},200)
+            return make_response({"status":False,"detail":"User odes not exist"},200)
         return make_response({"status":False,"detail":"Wrong OTP"},400)

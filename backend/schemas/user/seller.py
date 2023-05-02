@@ -10,7 +10,7 @@ class SellerCreateSchema(schema.SQLAlchemySchema):
     uid=fields.String(required=True)
     shop_name=fields.String(required=True)
     address=fields.String(required=True)
-    email = fields.Email(required=True)
+    email = fields.Email(required=False)
     phone_number = fields.String(required=False)
     password = fields.String(required=False)
     
@@ -18,14 +18,14 @@ class SellerCreateSchema(schema.SQLAlchemySchema):
         model=SellerProfile
         load_instance=True
     
-    @validates_schema
-    def validate_user_exist(self, data, **kwargs):
-        if request.app=='customer':
-            user_exists=CustomerProfile.query.filter_by(email=data['email']).count()
-        else:
-            user_exists=SellerProfile.query.filter_by(email=data['email']).count()
-        if user_exists>0:
-            raise ValidationError(f"{request.app} does exists..!!",'exist')
+    # @validates_schema
+    # def validate_user_exist(self, data, **kwargs):
+    #     if request.app=='customer':
+    #         user_exists=CustomerProfile.query.filter_by(email=data['email']).count()
+    #     else:
+    #         user_exists=SellerProfile.query.filter_by(email=data['email']).count()
+    #     if user_exists>0:
+    #         raise ValidationError(f"{request.app} does exists..!!",'exist')
         
 
 class SellerReadSchema(schema.SQLAlchemyAutoSchema):

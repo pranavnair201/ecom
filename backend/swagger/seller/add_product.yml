@@ -5,7 +5,6 @@ parameters:
     name: app
     type: string
     required: true
-    example: customer
   - name: data
     in: body
     required: true

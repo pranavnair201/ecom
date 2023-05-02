@@ -11,9 +11,7 @@ parameters:
     required: true
     example: {
         "name":"Pranav",
-        "email":"prnavnair2001@gmail.com",
-        "phone_number":"6359273651",
-        "password":"password"
+        "phone_number":"6359273659"
     }
     description: Post data
 

@@ -18,7 +18,7 @@ parameters:
             }
         ],
         "customer_address_id":1,
-        "seller_id":1
+        "seller_id":"45481202-85d3-433c-a8d8-3ab26f5acde6"
     }
     description: Post data
 

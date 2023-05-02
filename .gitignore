@@ -6,6 +6,7 @@
 env/
 backend/venv/
 backend/migrations/
+backend/.env
 .venv/
 env*
 dist/

@@ -23,20 +23,21 @@ class LoginSchema(schema.SQLAlchemySchema):
         email=data.get('email',None)
         password=data.get('password',None)
         phone_number=data.get('phone_number',None)
-        if not(bool(email) and bool(password)) and type==LoginEnum.EMAIL:
+        if not(bool(email) and bool(password)) and type==LoginEnum.EMAIL.value:
             raise ValidationError(f"Email/password required",'input')
-        if not(bool(phone_number)) and type==LoginEnum.PHONE:
+        if not(bool(phone_number)) and type==LoginEnum.PHONE.value:
             raise ValidationError(f"Phone number is required",'input')
 
     @validates_schema
     def validate_user_exist(self, data, **kwargs):
         type=data.get('type',None)
-        if type==LoginEnum.EMAIL:
+        if type==LoginEnum.EMAIL.value:
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(email=data['email']).count()
             else:
                 user_exists=SellerProfile.query.filter_by(email=data['email']).count()
         else:
+            
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(phone_number=data['phone_number']).count()
             else:
@@ -47,7 +48,7 @@ class LoginSchema(schema.SQLAlchemySchema):
     @validates_schema
     def validate_user_password_check(self, data, **kwargs):
         type=data.get('type',None)
-        if type==LoginEnum.EMAIL:
+        if type==LoginEnum.EMAIL.value:
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(email=data['email'])
             else:
@@ -60,7 +61,7 @@ class LoginSchema(schema.SQLAlchemySchema):
     @validates_schema
     def validate_user_is_verified(self, data, **kwargs):
         type=data.get('type',None)
-        if type==LoginEnum.EMAIL:
+        if type==LoginEnum.EMAIL.value:
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(email=data['email'])
             else:

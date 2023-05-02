@@ -12,9 +12,9 @@ from schemas.seller.product import ProductReadSchema
 class OrderSchema(schema.SQLAlchemySchema):
     payment_mode = fields.Integer(required=True)
     order_items=fields.List(fields.Dict,required=True)
-    customer_id = fields.Integer()
+    customer_id = fields.String()
     customer_address_id = fields.Integer()
-    seller_id = fields.Integer()
+    seller_id = fields.String()
 
 class OrderItemSchema(schema.SQLAlchemySchema):
     rate = fields.Integer(required=True)
