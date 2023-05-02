@@ -19,7 +19,7 @@ app=Flask(__name__)
 api=Api(app)
 CORS(app)
 
-app.config['AUTHY_API_KEY']=os.environ.get('AUTHY_API_KEY')
+# app.config['AUTHY_API_KEY']=os.environ.get('AUTHY_API_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('SQLALCHEMY_DATABASE_URI')#"postgresql://ecom_admin:password@localhost:5432/ecom"
 

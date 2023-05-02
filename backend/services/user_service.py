@@ -2,6 +2,7 @@ import os
 from flask import make_response,request
 from flask_mail import Message
 from schemas.user.user import LoginEnum
+import logging
 
 from utils.twilio import phone_auth,service
 from models.database import db
@@ -41,7 +42,6 @@ class UserService():
     
     def login(self,data):
         type=data.get('type',None)
-        
         if type==LoginEnum.PHONE.value:
             phone_number=data.get('phone_number',None)
             print(phone_number)
@@ -50,8 +50,6 @@ class UserService():
                      .services(service.sid) \
                      .verifications \
                      .create(to='+91'+str(phone_number), channel='sms')
-            print(check.status)
-            # phone_auth.phones.verification_start(phone_number, "+91", via="sms")
             return make_response({"status":True,"detail":"OTP sent to mobile"},200)
         
         if request.app=='customer':
@@ -71,6 +69,7 @@ class UserService():
                            .verification_checks \
                            .create(to='+91'+str(phone_number), code=otp)
         if verification_check.status=='approved':
+            print(CustomerProfile.query.all()[0].phone_number)
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(phone_number=data['phone_number'])
             else:
@@ -79,5 +78,5 @@ class UserService():
             if user!=None:
                 token=generate_token(LoginEnum.PHONE.value,user.phone_number)
                 return make_response({"status":True,"token":token,"detail":"Verified"},200)
-            return make_response({"status":False,"detail":"User odes not exist"},200)
+            return make_response({"status":False,"detail":"User does not exist"},200)
         return make_response({"status":False,"detail":"Wrong OTP"},400)

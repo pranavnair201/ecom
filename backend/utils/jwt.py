@@ -41,7 +41,6 @@ def validate_token(func):
         except Exception as e:
             return make_response({"message": "Token not provided"}, 403)
         
-        
         try:
             data=jwt.decode(token, secret, algorithms=["HS256"])
         except jwt.exceptions.ExpiredSignatureError:

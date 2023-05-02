@@ -18,15 +18,19 @@ class SellerCreateSchema(schema.SQLAlchemySchema):
         model=SellerProfile
         load_instance=True
     
-    # @validates_schema
-    # def validate_user_exist(self, data, **kwargs):
-    #     if request.app=='customer':
-    #         user_exists=CustomerProfile.query.filter_by(email=data['email']).count()
-    #     else:
-    #         user_exists=SellerProfile.query.filter_by(email=data['email']).count()
-    #     if user_exists>0:
-    #         raise ValidationError(f"{request.app} does exists..!!",'exist')
-        
+    @validates_schema
+    def validate_user_exist(self, data, **kwargs):
+        email=data.get('email',None)
+        phone_number=data.get('phone_number',None)
+        user_exists=0
+        if email!=None:
+            user_exists+=CustomerProfile.query.filter_by(email=email).count()
+            user_exists+=SellerProfile.query.filter_by(email=email).count()
+        elif phone_number!=None:
+            user_exists+=CustomerProfile.query.filter_by(phone_number=phone_number).count()
+            user_exists+=SellerProfile.query.filter_by(phone_number=phone_number).count()
+        if user_exists>0:
+            raise ValidationError(f"{request.app} does exists..!!",'exist')
 
 class SellerReadSchema(schema.SQLAlchemyAutoSchema):
     shop_name=fields.String(required=True)
