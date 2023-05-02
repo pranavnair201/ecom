@@ -3,7 +3,7 @@ from flask import make_response,request
 from flask_mail import Message
 from schemas.user.user import LoginEnum
 
-from utils.twilio import phone_auth
+from utils.twilio import phone_auth,service
 from models.database import db
 from models.user.customer import CustomerProfile
 from models.user.seller import SellerProfile
@@ -45,7 +45,13 @@ class UserService():
         if type==LoginEnum.PHONE.value:
             phone_number=data.get('phone_number',None)
             print(phone_number)
-            phone_auth.phones.verification_start(phone_number, "+91", via="sms")
+            check=phone_auth.verify \
+                     .v2 \
+                     .services(service.sid) \
+                     .verifications \
+                     .create(to='+91'+str(phone_number), channel='sms')
+            print(check.status)
+            # phone_auth.phones.verification_start(phone_number, "+91", via="sms")
             return make_response({"status":True,"detail":"OTP sent to mobile"},200)
         
         if request.app=='customer':
@@ -59,8 +65,12 @@ class UserService():
     def verify_otp(self,data):
         otp=data.get('otp',None)
         phone_number=data.get('phone_number',None)
-        verification=phone_auth.phones.verification_check(phone_number,"+91",otp)
-        if verification.ok():
+        verification_check = phone_auth.verify \
+                           .v2 \
+                           .services(service.sid) \
+                           .verification_checks \
+                           .create(to='+91'+str(phone_number), code=otp)
+        if verification_check.status=='approved':
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(phone_number=data['phone_number'])
             else:
