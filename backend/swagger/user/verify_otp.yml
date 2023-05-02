@@ -1,0 +1,25 @@
+Verify otp seller/customer
+---
+description: Verify otp for seller/customer
+
+parameters:
+  - in: header
+    name: app
+    type: string
+    required: true
+  - name: data
+    in: body
+    required: true
+    example: {
+        "phone_number":"9510625910",
+        "otp":798524
+    }
+    description: Post data
+
+responses:
+  200:
+    description: Success
+  400:
+    description: Invalid request
+  404:
+    description: Not found

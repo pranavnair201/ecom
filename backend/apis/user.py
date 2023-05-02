@@ -76,8 +76,8 @@ class UserVerifyView(Resource):
             return make_response({"status":False, "detail":"App not provided"},400)
         return self.user_service.verify_user(token,app)
     
-    # @error_handler
+    @swag_from(os.path.join(route,'user/verify_otp.yml'))
+    @error_handler
     def post(self):
-        request.app='seller'
         data=request.get_json()
         return self.user_service.verify_otp(data)
