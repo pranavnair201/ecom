@@ -21,7 +21,7 @@ CORS(app)
 
 app.config['AUTHY_API_KEY']=os.environ.get('AUTHY_API_KEY')
 
-app.config['SQLALCHEMY_DATABASE_URI']="postgresql://ecom_admin:password@localhost:5432/ecom"#os.environ.get('SQLALCHEMY_DATABASE_URI')#"postgresql://ecom_admin:password@localhost:5432/ecom"
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('SQLALCHEMY_DATABASE_URI')#"postgresql://ecom_admin:password@localhost:5432/ecom"
 
 # Swagger configs
 app.config["SWAGGER"] = {
