@@ -1,5 +1,6 @@
 from flask import make_response,request
 from sqlalchemy import and_
+from sqlalchemy.sql import text
 
 from schemas.order.order import OrderSchema,OrderItemSchema,OrderReadSchema,OrderItemReadSchema
 from models.database import db
@@ -11,18 +12,36 @@ class OrderService():
     db_session=db.session
     
     def get_seller_earning(self,start_date,end_date):
-        query=Order.query.filter(
-            and_(Order.created_on>=start_date,Order.created_on<=end_date)
-        )
-        total=0
-        for order in query:
-            if order.total:
-                total+=order.total
+        # query=Order.query.filter(
+        #     and_(Order.created_on>=start_date,Order.created_on<=end_date)
+        # )
+        # total=0
+        # for order in query:
+        #     if order.total:
+        #         total+=order.total
+        total=self.db_session.execute(
+            text(
+                f"SELECT SUM(order_item.rate) FROM order_item \
+                    JOIN order_table ON order_item.order_id=order_table.id \
+                        WHERE \
+                            order_table.seller_id='{str(request.user.uid)}' \
+                                and \
+                                    order_table.created_on>='{start_date}' and \
+                                        order_table.created_on<='{end_date}';"
+            )
+        ).all()[0][0]
         earnings_data={"earning":total}
         return make_response({"status":True,"detail":earnings_data},200)
     
     def get_seller_my_orders(self):
+        
         orders=Order.query.filter_by(seller_id=request.user.uid)
+        # orders=self.db_session.execute(
+        #     text(
+        #         f"SELECT * FROM order_table JOIN seller ON seller.uid=order_table.seller_id WHERE seller.uid='{str(request.user.uid)}';"
+        #     )
+        # ).query()
+        # print(type(orders[0]))
         orders_data=OrderReadSchema(exclude=['seller']).dump(orders,many=True)
         return make_response({"status":True,"detail":orders_data},200)
     

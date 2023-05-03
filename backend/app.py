@@ -15,13 +15,14 @@ from utils.mail_handler import mail
 from swagger.swagger import swag
 
 app=Flask(__name__)
+app.app_context().push()
 
 api=Api(app)
 CORS(app)
 
 # app.config['AUTHY_API_KEY']=os.environ.get('AUTHY_API_KEY')
 
-app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('SQLALCHEMY_DATABASE_URI')#"postgresql://ecom_admin:password@localhost:5432/ecom"
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql://ecom_admin:password@localhost:5432/ecom"#os.environ.get('SQLALCHEMY_DATABASE_URI')#"postgresql://ecom_admin:password@localhost:5432/ecom"
 
 # Swagger configs
 app.config["SWAGGER"] = {
@@ -38,7 +39,10 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 mail.init_app(app)
-db.init_app(app)
+
+with app.app_context():
+    db.init_app(app)
+
 schema.init_app(app)
 swag.init_app(app)
 
@@ -61,9 +65,6 @@ api.add_resource(OrderCustomerView,'/order')
 api.add_resource(OrderSellerView,'/seller-order')
 api.add_resource(SellerEarningView,'/seller-earning')
 
-# @app.route("/token")
-# def index():
-#     return render_template('token_generator.html')
 
 if __name__=='__main__':
     app.debug=True

@@ -39,8 +39,9 @@ class SellerEarningView(Resource):
     
     @swag_from(os.path.join(route,'order/get_earnings.yml'))
     @validate_token
-    @error_handler
+    # @error_handler
     def get(self):
+        request.app='seller'
         args=request.args.to_dict()
         start_date=args.get('start_date',None)
         end_date=args.get('end_date',None)

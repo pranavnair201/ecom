@@ -11,6 +11,8 @@ services:
       EMAIL_ID: ${EMAIL_ID}
       PASSWORD: ${PASSWORD}
       TOKEN_SECRET: ${TOKEN_SECRET}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
     ports:
       - '5000:5000'
     restart: always

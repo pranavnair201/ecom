@@ -34,7 +34,7 @@ class OrderItemReadSchema(schema.SQLAlchemySchema):
         include_fk = True
     
 class OrderReadSchema(schema.SQLAlchemySchema):
-    payment_mode = fields.Integer(required=True)
+    # payment_mode = fields.Integer(required=True)
     created_on = fields.DateTime(required=True)
     order_item = fields.Nested(OrderItemReadSchema,many=True)
     customer = fields.Nested(CustomerReadSchema,many=False,exclude=['password'])

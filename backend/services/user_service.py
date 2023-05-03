@@ -47,7 +47,7 @@ class UserService():
             print(phone_number)
             check=phone_auth.verify \
                      .v2 \
-                     .services(service.sid) \
+                     .services("VAf82375ffb9c40c377d8538c8a93fab17") \
                      .verifications \
                      .create(to='+91'+str(phone_number), channel='sms')
             return make_response({"status":True,"detail":"OTP sent to mobile"},200)
@@ -65,11 +65,10 @@ class UserService():
         phone_number=data.get('phone_number',None)
         verification_check = phone_auth.verify \
                            .v2 \
-                           .services(service.sid) \
+                           .services('VAf82375ffb9c40c377d8538c8a93fab17') \
                            .verification_checks \
                            .create(to='+91'+str(phone_number), code=otp)
         if verification_check.status=='approved':
-            print(CustomerProfile.query.all()[0].phone_number)
             if request.app=='customer':
                 user_exists=CustomerProfile.query.filter_by(phone_number=data['phone_number'])
             else:

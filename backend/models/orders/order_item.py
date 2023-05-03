@@ -3,7 +3,7 @@ from models.database import db
 class OrderItem(db.Model):
     __tablename__='order_item'
     id=db.Column(db.Integer,primary_key=True)
-    order_id=db.Column(db.Integer,db.ForeignKey('order.id'))
+    order_id=db.Column(db.Integer,db.ForeignKey('order_table.id'))
     product_id=db.Column(db.Integer,db.ForeignKey('product.id'))
     quantity=db.Column(db.Integer,nullable=False)
     rate=db.Column(db.Integer,nullable=False)
